@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f7f8f6">
+    <meta name="description" content="A calm, simple space for your daily tasks and habits.">
+    <title>Daylight — your day, in good shape</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="#" aria-label="Daylight home" data-view="today">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" fill="none"><path d="M16 5.2a10.8 10.8 0 1 0 10.8 10.8A8.8 8.8 0 0 1 16 5.2Z" fill="currentColor"/><path d="M22.4 5.7v5.1m-2.55-2.55h5.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                </span>
+                <span>daylight<span class="brand-period">.</span></span>
+            </a>
+            <div class="topbar-right">
+                <span class="today-label" id="header-date"></span>
+                <span class="avatar" aria-label="Your profile">J</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="view-panel active" id="today-view" aria-labelledby="welcome-title">
+                <div class="welcome-row">
+                    <div>
+                        <p class="eyebrow" id="full-date"></p>
+                        <h1 id="welcome-title">Make today <span class="serif-accent">count.</span></h1>
+                        <p class="welcome-subtitle">A little progress adds up. Let’s get into it.</p>
+                    </div>
+                    <button class="primary-button add-task-button" type="button" data-open-dialog="task-dialog">
+                        <span class="plus-icon" aria-hidden="true">+</span><span>New task</span>
+                    </button>
+                </div>
+
+                <div class="overview-grid">
+                    <article class="streak-card">
+                        <div class="streak-copy">
+                            <span class="streak-spark" aria-hidden="true">✳</span>
+                            <div>
+                                <p class="card-kicker">YOUR CONSISTENCY</p>
+                                <p class="streak-number"><span id="streak-count">0</span> day streak</p>
+                                <p class="streak-caption">Show up for yourself today.</p>
+                            </div>
+                        </div>
+                        <div class="week-strip" id="week-strip" aria-label="This week's habit activity"></div>
+                    </article>
+                    <article class="progress-card">
+                        <div class="progress-heading">
+                            <div>
+                                <p class="card-kicker">TODAY AT A GLANCE</p>
+                                <p class="progress-title"><span id="task-progress-count">0 of 0</span> tasks done</p>
+                            </div>
+                            <div class="progress-ring" id="progress-ring" aria-label="0% complete"><span id="progress-percent">0%</span></div>
+                        </div>
+                        <div class="progress-track"><span id="progress-bar"></span></div>
+                        <p class="progress-footnote" id="progress-note">Every small step matters.</p>
+                    </article>
+                </div>
+
+                <div class="content-grid">
+                    <section class="surface task-surface" aria-labelledby="tasks-heading">
+                        <div class="section-heading">
+                            <div>
+                                <p class="section-kicker">KEEP THINGS MOVING</p>
+                                <h2 id="tasks-heading">Today’s tasks <span class="count-pill" id="task-count">0</span></h2>
+                            </div>
+                            <button class="text-button" type="button" data-view="tasks">View all <span aria-hidden="true">→</span></button>
+                        </div>
+                        <div class="filter-row" id="today-filters" aria-label="Filter today's tasks">
+                            <button class="filter-chip selected" type="button" data-filter="all">All</button>
+                            <button class="filter-chip" type="button" data-filter="open">To do</button>
+                            <button class="filter-chip" type="button" data-filter="done">Done</button>
+                        </div>
+                        <div id="today-task-list" class="task-list"></div>
+                    </section>
+
+                    <section class="surface habit-surface" aria-labelledby="habits-heading">
+                        <div class="section-heading">
+                            <div>
+                                <p class="section-kicker">TINY STEPS, BIG CHANGE</p>
+                                <h2 id="habits-heading">Daily habits <span class="count-pill" id="habit-count">0</span></h2>
+                            </div>
+                            <button class="icon-button" type="button" data-open-dialog="habit-dialog" aria-label="Add a habit">+</button>
+                        </div>
+                        <p class="habit-intro">Keep your promises to yourself, one day at a time.</p>
+                        <div id="habit-list" class="habit-list"></div>
+                        <div class="habit-encouragement"><span aria-hidden="true">✦</span> Consistency over perfection.</div>
+                    </section>
+                </div>
+            </section>
+
+            <section class="view-panel" id="tasks-view" aria-labelledby="all-tasks-heading">
+                <div class="page-heading">
+                    <div><p class="eyebrow">ONE THING AT A TIME</p><h1 id="all-tasks-heading">Your <span class="serif-accent">tasks.</span></h1><p class="welcome-subtitle">Make space for what matters most.</p></div>
+                    <button class="primary-button" type="button" data-open-dialog="task-dialog"><span class="plus-icon" aria-hidden="true">+</span><span>New task</span></button>
+                </div>
+                <section class="surface full-list-surface">
+                    <div class="filter-row" id="all-filters" aria-label="Filter tasks">
+                        <button class="filter-chip selected" type="button" data-filter="all">All tasks</button>
+                        <button class="filter-chip" type="button" data-filter="open">To do</button>
+                        <button class="filter-chip" type="button" data-filter="done">Completed</button>
+                    </div>
+                    <div id="all-task-list" class="task-list"></div>
+                </section>
+            </section>
+
+            <section class="view-panel" id="habits-view" aria-labelledby="all-habits-heading">
+                <div class="page-heading">
+                    <div><p class="eyebrow">SHOW UP FOR YOURSELF</p><h1 id="all-habits-heading">Good things, <span class="serif-accent">daily.</span></h1><p class="welcome-subtitle">Build routines that feel like you.</p></div>
+                    <button class="primary-button" type="button" data-open-dialog="habit-dialog"><span class="plus-icon" aria-hidden="true">+</span><span>New habit</span></button>
+                </div>
+                <section class="surface habits-page-surface">
+                    <div class="section-heading">
+                        <div><p class="section-kicker">YOUR DAILY PRACTICE</p><h2>Habits to nurture</h2></div>
+                        <span class="date-pill" id="habits-date"></span>
+                    </div>
+                    <p class="habit-intro">A checked day is a quiet win. Tap a circle when you’re done.</p>
+                    <div id="all-habit-list" class="habit-list habit-list-large"></div>
+                </section>
+            </section>
+
+            <section class="view-panel" id="insights-view" aria-labelledby="insights-heading">
+                <div class="page-heading">
+                    <div><p class="eyebrow">LOOK HOW FAR YOU’VE COME</p><h1 id="insights-heading">Your <span class="serif-accent">rhythm.</span></h1><p class="welcome-subtitle">Progress is made of all the days you showed up.</p></div>
+                </div>
+                <div class="insights-grid">
+                    <article class="surface insight-card"><span class="insight-icon green-icon">✓</span><p class="card-kicker">TASKS COMPLETED</p><p class="insight-number" id="insight-tasks">0</p><p class="insight-caption">all-time wins</p></article>
+                    <article class="surface insight-card"><span class="insight-icon yellow-icon">✳</span><p class="card-kicker">BEST STREAK</p><p class="insight-number"><span id="insight-streak">0</span><small> days</small></p><p class="insight-caption">your longest run</p></article>
+                    <article class="surface insight-card"><span class="insight-icon purple-icon">♡</span><p class="card-kicker">HABITS IN YOUR LIFE</p><p class="insight-number" id="insight-habits">0</p><p class="insight-caption">little things, often</p></article>
+                </div>
+                <article class="surface reflection-card"><span class="reflection-mark" aria-hidden="true">“</span><p>Success isn’t always loud. Sometimes it’s just showing up again.</p><span>— your gentle reminder</span></article>
+            </section>
+        </main>
+
+        <nav class="bottom-nav" aria-label="Main navigation">
+            <button type="button" class="nav-item active" data-view="today" aria-current="page"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none"><path d="m3.75 10.5 8.25-6.75 8.25 6.75v9a.75.75 0 0 1-.75.75H4.5a.75.75 0 0 1-.75-.75v-9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 20.25v-6h6v6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span>Today</span></button>
+            <button type="button" class="nav-item" data-view="tasks"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M8.25 6.75h12m-12 5.25h12m-12 5.25h12M3.75 6.75h.008v.008H3.75V6.75Zm0 5.25h.008v.008H3.75V12Zm0 5.25h.008v.008H3.75v-.008Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Tasks</span></button>
+            <button type="button" class="nav-item" data-view="habits"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 20.25s-8.25-4.5-8.25-10.5A4.5 4.5 0 0 1 12 7.3a4.5 4.5 0 0 1 8.25 2.45c0 6-8.25 10.5-8.25 10.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span>Habits</span></button>
+            <button type="button" class="nav-item" data-view="insights"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4.5 19.5V12m5 7.5V5m5 14.5v-10m5 10V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span>Insights</span></button>
+        </nav>
+    </div>
+
+    <dialog class="entry-dialog" id="task-dialog">
+        <form id="task-form" method="dialog">
+            <div class="dialog-heading"><div><p class="section-kicker">MAKE IT HAPPEN</p><h2>A new task</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button></div>
+            <label class="field-label" for="task-title">What needs doing?</label>
+            <input id="task-title" name="title" type="text" maxlength="100" placeholder="e.g. Pick up groceries" required>
+            <div class="form-row">
+                <div class="form-field"><label class="field-label" for="task-date">When</label><input id="task-date" name="date" type="date" required></div>
+                <div class="form-field"><label class="field-label" for="task-category">Category</label><select id="task-category" name="category"><option>Personal</option><option>Work</option><option>Health</option><option>Home</option></select></div>
+            </div>
+            <label class="field-label" for="task-priority">Priority</label>
+            <select id="task-priority" name="priority"><option value="normal">Whenever</option><option value="important">Important</option></select>
+            <button class="primary-button dialog-submit" type="submit">Add to my day <span aria-hidden="true">→</span></button>
+        </form>
+    </dialog>
+
+    <dialog class="entry-dialog" id="habit-dialog">
+        <form id="habit-form" method="dialog">
+            <div class="dialog-heading"><div><p class="section-kicker">START SMALL, START HERE</p><h2>A new habit</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button></div>
+            <label class="field-label" for="habit-title">What would you like to practice?</label>
+            <input id="habit-title" name="title" type="text" maxlength="60" placeholder="e.g. Read for 10 minutes" required>
+            <label class="field-label" for="habit-frequency">How often?</label>
+            <select id="habit-frequency" name="frequency"><option>Every day</option><option>Weekdays</option><option>Whenever I can</option></select>
+            <button class="primary-button dialog-submit" type="submit">Create my habit <span aria-hidden="true">→</span></button>
+        </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+</body>
+</html>
